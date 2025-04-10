@@ -6,6 +6,7 @@ import org.example.productcatalogservice.models.Category;
 import org.example.productcatalogservice.models.Product;
 import org.example.productcatalogservice.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
+    @Qualifier("sps")
     @Autowired
     private IProductService productService;
 
@@ -58,17 +60,19 @@ public class ProductController {
 
     private ProductDto from (Product product) {
         ProductDto productDto = new ProductDto();
-        productDto.setId(product.getId());
-        productDto.setName(product.getName());
-        productDto.setDescription(product.getDescription());
-        productDto.setPrice(product.getPrice());
-        productDto.setImageUrl(product.getImageUrl());
-        if(product.getCategory() != null) {
-            CategoryDto categoryDto = new CategoryDto();
-            categoryDto.setName(product.getCategory().getName());
-            categoryDto.setId(product.getCategory().getId());
-            categoryDto.setDescription(product.getCategory().getDescription());
-            productDto.setCategory(categoryDto);
+        if(product != null) {
+            productDto.setId(product.getId());
+            productDto.setName(product.getName());
+            productDto.setDescription(product.getDescription());
+            productDto.setPrice(product.getPrice());
+            productDto.setImageUrl(product.getImageUrl());
+            if(product.getCategory() != null) {
+                CategoryDto categoryDto = new CategoryDto();
+                categoryDto.setName(product.getCategory().getName());
+                categoryDto.setId(product.getCategory().getId());
+                categoryDto.setDescription(product.getCategory().getDescription());
+                productDto.setCategory(categoryDto);
+            }
         }
         return productDto;
     }
