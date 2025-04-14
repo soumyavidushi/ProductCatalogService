@@ -6,8 +6,6 @@ import org.hibernate.annotations.Type;
 import java.util.UUID;
 
 @Entity
-public class TestModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+public class TestModel extends BaseModel {
+    private Integer numField;
 }
