@@ -16,7 +16,7 @@ public class Product extends BaseModel {
     String description;
     String imageUrl;
     Double price;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     Category category;
     Boolean isPrime;
 
