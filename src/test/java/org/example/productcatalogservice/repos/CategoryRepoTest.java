@@ -24,5 +24,4 @@ class CategoryRepoTest {
             System.out.println(product.getName());
         }
     }
-
 }

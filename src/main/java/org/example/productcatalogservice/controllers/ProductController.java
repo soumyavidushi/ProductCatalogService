@@ -33,8 +33,10 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto getProductDetails(@PathVariable Long id) {
-        if(id<=0) {
-            throw new IllegalArgumentException(("Product id must be greater than 0"));
+        if(id<0) {
+            throw new IllegalArgumentException("Product id must be greater than 0");
+        } else if(id == 0) {
+            throw new IllegalArgumentException("Product id must be positive");
         }
         Product product = productService.getProductById(id);
         return from(product);
