@@ -1,6 +1,7 @@
 package org.example.productcatalogservice.controllers;
 
 import org.example.productcatalogservice.dtos.SearchProductDto;
+import org.example.productcatalogservice.dtos.SortParam;
 import org.example.productcatalogservice.models.Product;
 import org.example.productcatalogservice.services.ISearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,6 @@ public class SearchController {
 
     @PostMapping("/search")
     public Page<Product> searchProducts(@RequestBody SearchProductDto searchProductDto  ) {
-        return searchService.searchProducts(searchProductDto.getQuery(), searchProductDto.getPageNumber() ,searchProductDto.getPageSize());
+        return searchService.searchProducts(searchProductDto.getQuery(), searchProductDto.getPageNumber() ,searchProductDto.getPageSize(), searchProductDto.getSortParams());
     }
 }
