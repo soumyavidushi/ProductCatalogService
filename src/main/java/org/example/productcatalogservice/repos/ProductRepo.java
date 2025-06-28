@@ -12,6 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Long> {
+
+    List<Product> findByNameEquals(String name);
+
     @Override
     Product save(Product product);
 

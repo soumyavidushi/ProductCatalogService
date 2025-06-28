@@ -33,7 +33,7 @@ public class StorageProductService implements IProductService{
 
     @Override
     public Product getProductById(Long id) {
-        Product product = (Product)redisTemplate.opsForHash().get("products",id);
+      /*  Product product = (Product)redisTemplate.opsForHash().get("products",id);
         if(product == null) {
             Optional<Product> optionalProduct = productRepo.findById(id);
             if(optionalProduct.isPresent()) {
@@ -42,7 +42,10 @@ public class StorageProductService implements IProductService{
             }
             return null;
         }
-        return product;
+        return product; */
+        Optional<Product> optionalProduct = productRepo.findById(id);
+        return optionalProduct.get();
+
     }
 
     @Override
@@ -82,7 +85,8 @@ public class StorageProductService implements IProductService{
                 return product;
             } else if(product.getScope().equals(Scope.UNLISTED)){
                 // call user service
-                UserDto userDto = restTemplate.getForEntity("http://localhost:8090/user/" + userId, UserDto.class, userId).getBody();
+               // UserDto userDto = restTemplate.getForEntity("http://localhost:8090/user/{userId}", UserDto.class, userId).getBody();
+                UserDto userDto = restTemplate.getForEntity("http://UserAuthentication/user/{userId}", UserDto.class, userId).getBody();
                 if(userDto.getRole().equals(Role.ADMIN)) {
                     return product;
                 }
