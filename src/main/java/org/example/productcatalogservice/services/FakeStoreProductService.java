@@ -38,7 +38,6 @@ public class FakeStoreProductService implements IProductService {
         return null;
     }
 
-
     @Override
     public List<Product> getAllProducts() {
         RestTemplate restTemplate1 = restTemplateBuilder.build();
@@ -66,6 +65,11 @@ public class FakeStoreProductService implements IProductService {
         if(fakeStoreProductDto != null) {
             return from(fakeStoreProductDto);
         }
+        return null;
+    }
+
+    @Override
+    public Product getProductDetailsBasedOnUserRole(Long productId, Long userId) {
         return null;
     }
 

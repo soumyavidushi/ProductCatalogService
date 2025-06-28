@@ -1,12 +1,17 @@
 package org.example.productcatalogservice.services;
 
+import org.example.productcatalogservice.dtos.Role;
+import org.example.productcatalogservice.dtos.UserDto;
 import org.example.productcatalogservice.models.Product;
+import org.example.productcatalogservice.models.Scope;
 import org.example.productcatalogservice.repos.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +26,9 @@ public class StorageProductService implements IProductService{
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
 
     @Override
@@ -63,5 +71,23 @@ public class StorageProductService implements IProductService{
     public Product createProduct(Product product) {
         Optional<Product> productOptional = Optional.ofNullable(getProductById(product.getId()));
         return productOptional.orElseGet(() -> productRepo.save(product));
+    }
+
+    @Override
+    public Product getProductDetailsBasedOnUserRole(Long productId, Long userId) {
+        Optional<Product> optionalProduct = productRepo.findById(productId);
+        if(optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            if(product.getScope().equals(Scope.LISTED)){
+                return product;
+            } else if(product.getScope().equals(Scope.UNLISTED)){
+                // call user service
+                UserDto userDto = restTemplate.getForEntity("http://localhost:8090/user/" + userId, UserDto.class, userId).getBody();
+                if(userDto.getRole().equals(Role.ADMIN)) {
+                    return product;
+                }
+            }
+        }
+        return null;
     }
 }
