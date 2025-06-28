@@ -4,6 +4,7 @@ import org.example.productcatalogservice.dtos.SearchProductDto;
 import org.example.productcatalogservice.models.Product;
 import org.example.productcatalogservice.services.ISearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ public class SearchController {
     private ISearchService searchService;
 
     @PostMapping("/search")
-    public List<Product> searchProducts(@RequestBody SearchProductDto searchProductDto  ) {
-        return searchService.searchProducts(searchProductDto.getQuery());
+    public Page<Product> searchProducts(@RequestBody SearchProductDto searchProductDto  ) {
+        return searchService.searchProducts(searchProductDto.getQuery(), searchProductDto.getPageNumber() ,searchProductDto.getPageSize());
     }
 }

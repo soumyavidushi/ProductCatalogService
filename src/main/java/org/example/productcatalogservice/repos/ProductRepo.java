@@ -2,6 +2,8 @@ package org.example.productcatalogservice.repos;
 
 import org.example.productcatalogservice.models.Category;
 import org.example.productcatalogservice.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNullApi;
@@ -13,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Long> {
 
-    List<Product> findByNameEquals(String name);
+    Page<Product> findByNameEquals(String name, Pageable pageable);
 
     @Override
     Product save(Product product);

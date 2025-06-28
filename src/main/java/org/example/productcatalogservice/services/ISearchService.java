@@ -1,9 +1,10 @@
 package org.example.productcatalogservice.services;
 
 import org.example.productcatalogservice.models.Product;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface ISearchService {
-    List<Product> searchProducts(String query);
+    Page<Product> searchProducts(String query, int pageNumber, int pageSize);
 }

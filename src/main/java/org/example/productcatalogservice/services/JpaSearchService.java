@@ -3,6 +3,8 @@ package org.example.productcatalogservice.services;
 import org.example.productcatalogservice.models.Product;
 import org.example.productcatalogservice.repos.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +16,7 @@ public class JpaSearchService implements ISearchService {
     private ProductRepo productRepo;
 
     @Override
-    public List<Product> searchProducts(String query) {
-        return productRepo.findByNameEquals(query);
+    public Page<Product> searchProducts(String query, int pageNumber, int pageSize) {
+        return productRepo.findByNameEquals(query, PageRequest.of(pageNumber, pageSize));
     }
 }
